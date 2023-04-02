@@ -14,10 +14,10 @@ public class CategoryDTO {
 
     private Integer id;
 
-    @NotBlank(message = "the field 'name' not be empty or blank")
+    @NotBlank(message = "the field [name] is required")
     private String name;
 
-    @NotBlank(message = "the field 'description' not be empty or blank")
+    @NotBlank(message = "the field [description] is required")
     private String description;
 
 }
