@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +35,21 @@ public class CategoryController {
                 .name(category.getName())
                 .description(category.getDescription())
                 .build();
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<CategoryDTO> getAllCategories() {
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        List<Category> categoryList = categoryService.getAllCategories();
+        categoryList.forEach(category -> {
+            categoryDTOList.add(CategoryDTO.builder()
+                    .id(category.getId())
+                    .name(category.getName())
+                    .description(category.getDescription())
+                    .build());
+        });
+        return categoryDTOList;
     }
 
     @PutMapping("{id}")
