@@ -8,4 +8,6 @@ public interface EntryService {
 
     Entry createEntry(EntryDTO entryDTO, Category category);
 
+    Entry getEntry(Integer id);
+
 }

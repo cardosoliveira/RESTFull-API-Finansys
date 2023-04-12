@@ -8,10 +8,7 @@ import br.com.finansys.finansys.service.CategoryService;
 import br.com.finansys.finansys.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/entry")
@@ -35,6 +32,26 @@ public class EntryController {
                 .description(category.getDescription())
                 .build());
         return entryDTO;
+    }
+
+    @GetMapping("{id}")
+    public EntryDTO getEntry(@PathVariable Integer id) {
+        Entry entry = entryService.getEntry(id);
+        return EntryDTO.builder()
+                .id(entry.getId())
+                .name(entry.getName())
+                .description(entry.getDescription())
+                .type(entry.getType())
+                .amount(entry.getAmount().toString())
+                .date(entry.getDate().toString())
+                .paid(entry.getPaid())
+                .categoryId(entry.getCategory().getId())
+                .category(CategoryDTO.builder()
+                        .id(entry.getCategory().getId())
+                        .name(entry.getCategory().getName())
+                        .description(entry.getCategory().getDescription())
+                        .build())
+                .build();
     }
 
 }

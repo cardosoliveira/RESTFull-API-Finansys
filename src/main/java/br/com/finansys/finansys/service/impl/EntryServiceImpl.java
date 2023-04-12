@@ -6,7 +6,9 @@ import br.com.finansys.finansys.model.Entry;
 import br.com.finansys.finansys.repository.EntryRepository;
 import br.com.finansys.finansys.service.EntryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,4 +31,11 @@ public class EntryServiceImpl implements EntryService {
                 .category(category)
                 .build());
     }
+
+    @Override
+    public Entry getEntry(Integer id) {
+        return entryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
 }
