@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,16 @@ public class EntryServiceImpl implements EntryService {
         return entryRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    @Override
+    public List<Entry> getAllEntries() {
+        List<Entry> entryList = entryRepository.findAll();
+
+        if (entryList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return entryList;
+    }
+
 
 }
