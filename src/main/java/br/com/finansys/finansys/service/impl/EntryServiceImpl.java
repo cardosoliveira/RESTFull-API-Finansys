@@ -1,14 +1,13 @@
 package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.EntryDTO;
+import br.com.finansys.finansys.exception.EntryNotFoundException;
 import br.com.finansys.finansys.model.Category;
 import br.com.finansys.finansys.model.Entry;
 import br.com.finansys.finansys.repository.EntryRepository;
 import br.com.finansys.finansys.service.EntryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ public class EntryServiceImpl implements EntryService {
     @Override
     public Entry getEntry(Integer id) {
         return entryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new EntryNotFoundException("No Entry with [id] = '" + id + "' was found"));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class EntryServiceImpl implements EntryService {
         List<Entry> entryList = entryRepository.findAll();
 
         if (entryList.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EntryNotFoundException("No Entry has been registered");
         }
         return entryList;
     }

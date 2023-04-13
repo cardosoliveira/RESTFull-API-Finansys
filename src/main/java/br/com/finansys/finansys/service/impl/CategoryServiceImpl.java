@@ -1,13 +1,12 @@
 package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.CategoryDTO;
+import br.com.finansys.finansys.exception.CategoryNotFoundException;
 import br.com.finansys.finansys.model.Category;
 import br.com.finansys.finansys.repository.CategoryRepository;
 import br.com.finansys.finansys.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,14 +27,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategory(Integer id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CategoryNotFoundException("No Category with [id] = '" + id + "' was found"));
     }
 
     @Override
     public List<Category> getAllCategories() {
         List<Category> categoryList = categoryRepository.findAll();
         if (categoryList.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new CategoryNotFoundException("No Category has been registered");
         }
         return categoryList;
     }
@@ -48,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
                     category.setDescription(categoryDTO.getDescription());
                     categoryRepository.save(category);
                     return category;
-                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                }).orElseThrow(() -> new CategoryNotFoundException("No Category with [id] = '" + id + "' was found"));
     }
 
     @Override
@@ -57,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .map(category -> {
                     categoryRepository.delete(category);
                     return category;
-                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                }).orElseThrow(() -> new CategoryNotFoundException("No Category with [id] = '" + id + "' was found"));
     }
 
 }
