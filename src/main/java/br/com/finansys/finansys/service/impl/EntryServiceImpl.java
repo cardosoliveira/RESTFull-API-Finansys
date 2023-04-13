@@ -49,5 +49,16 @@ public class EntryServiceImpl implements EntryService {
         return entryList;
     }
 
-
+    @Override
+    public void updateEntry(Integer id, EntryDTO entryDTO, Category category) {
+        Entry entry = getEntry(id);
+        entry.setName(entryDTO.getName());
+        entry.setDescription(entryDTO.getDescription());
+        entry.setType(entryDTO.getType());
+        entry.setAmount(new BigDecimal(entryDTO.getAmount()));
+        entry.setDate(LocalDate.parse(entryDTO.getDate()));
+        entry.setPaid(entryDTO.getPaid());
+        entry.setCategory(category);
+        entryRepository.save(entry);
+    }
 }

@@ -14,4 +14,6 @@ public interface EntryService {
 
     List<Entry> getAllEntries();
 
+    void updateEntry(Integer id, EntryDTO entryDTO, Category category);
+
 }

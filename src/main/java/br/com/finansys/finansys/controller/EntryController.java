@@ -84,8 +84,15 @@ public class EntryController {
                     .build();
             entryDTOList.add(entryDTO);
         });
-
         return entryDTOList;
+    }
+
+    @Transactional
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateEntry(@PathVariable Integer id, @RequestBody EntryDTO entryDTO) {
+        Category category = categoryService.getCategory(entryDTO.getCategoryId());
+        entryService.updateEntry(id, entryDTO, category);
     }
 
 }
