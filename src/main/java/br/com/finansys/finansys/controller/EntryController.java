@@ -95,4 +95,9 @@ public class EntryController {
         entryService.updateEntry(id, entryDTO, category);
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEntry(@PathVariable Integer id) {
+        entryService.deleteEntry(id);
+    }
 }

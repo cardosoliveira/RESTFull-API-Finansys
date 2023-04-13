@@ -16,4 +16,6 @@ public interface EntryService {
 
     void updateEntry(Integer id, EntryDTO entryDTO, Category category);
 
+    void deleteEntry(Integer id);
+
 }

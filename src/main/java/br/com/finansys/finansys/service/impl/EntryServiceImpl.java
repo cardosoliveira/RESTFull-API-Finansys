@@ -61,4 +61,10 @@ public class EntryServiceImpl implements EntryService {
         entry.setCategory(category);
         entryRepository.save(entry);
     }
+
+    @Override
+    public void deleteEntry(Integer id) {
+        entryRepository.delete(getEntry(id));
+    }
+
 }
