@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class EntryController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
-    public EntryDTO createEntry(@RequestBody EntryDTO entryDTO) {
+    public EntryDTO createEntry(@RequestBody @Valid EntryDTO entryDTO) {
         Category category = categoryService.getCategory(entryDTO.getCategoryId());
         Entry entry = entryService.createEntry(entryDTO, category);
         entryDTO.setId(entry.getId());
@@ -90,7 +91,7 @@ public class EntryController {
     @Transactional
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateEntry(@PathVariable Integer id, @RequestBody EntryDTO entryDTO) {
+    public void updateEntry(@PathVariable Integer id, @RequestBody @Valid EntryDTO entryDTO) {
         Category category = categoryService.getCategory(entryDTO.getCategoryId());
         entryService.updateEntry(id, entryDTO, category);
     }

@@ -26,7 +26,7 @@ public class EntryServiceImpl implements EntryService {
                 .description(entryDTO.getDescription())
                 .type(entryDTO.getType())
                 .amount(new BigDecimal(entryDTO.getAmount()))
-                .date(LocalDate.now())
+                .date(LocalDate.parse(entryDTO.getDate()))
                 .paid(entryDTO.getPaid())
                 .category(category)
                 .build());
