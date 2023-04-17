@@ -2,6 +2,7 @@ package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.EntryDTO;
 import br.com.finansys.finansys.exception.EntryNotFoundException;
+import br.com.finansys.finansys.exception.EntryTypeNotValidException;
 import br.com.finansys.finansys.model.Category;
 import br.com.finansys.finansys.model.Entry;
 import br.com.finansys.finansys.repository.EntryRepository;
@@ -25,7 +26,7 @@ public class EntryServiceImpl implements EntryService {
         return entryRepository.save(Entry.builder()
                 .name(entryDTO.getName())
                 .description(entryDTO.getDescription())
-                .type(entryDTO.getType())
+                .type(checkIfTypeEntryIsValid(entryDTO.getType()))
                 .amount(new BigDecimal(entryDTO.getAmount().replace(",", ".")))
                 .date(LocalDate.parse(entryDTO.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .paid(entryDTO.getPaid())
@@ -54,7 +55,7 @@ public class EntryServiceImpl implements EntryService {
         Entry entry = getEntry(id);
         entry.setName(entryDTO.getName());
         entry.setDescription(entryDTO.getDescription());
-        entry.setType(entryDTO.getType());
+        entry.setType(checkIfTypeEntryIsValid(entryDTO.getType()));
         entry.setAmount(new BigDecimal(entryDTO.getAmount().replace(",", ".")));
         entry.setDate(LocalDate.parse(entryDTO.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         entry.setPaid(entryDTO.getPaid());
@@ -65,6 +66,14 @@ public class EntryServiceImpl implements EntryService {
     @Override
     public void deleteEntry(Integer id) {
         entryRepository.delete(getEntry(id));
+    }
+
+    private String checkIfTypeEntryIsValid(String type) {
+        if (type.equals("expense") || type.equals("revenue")) {
+            return type.toLowerCase();
+        } else {
+            throw new EntryTypeNotValidException("Entry [type] has to be 'expense' or 'revenue'");
+        }
     }
 
 }

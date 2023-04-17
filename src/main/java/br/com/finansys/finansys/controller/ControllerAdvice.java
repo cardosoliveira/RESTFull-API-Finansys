@@ -3,6 +3,7 @@ package br.com.finansys.finansys.controller;
 import br.com.finansys.finansys.dto.GenericErrorResponseDTO;
 import br.com.finansys.finansys.exception.CategoryNotFoundException;
 import br.com.finansys.finansys.exception.EntryNotFoundException;
+import br.com.finansys.finansys.exception.EntryTypeNotValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +41,12 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public GenericErrorResponseDTO entryErrors(EntryNotFoundException e) {
         return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
+    }
+
+    @ExceptionHandler(EntryTypeNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public GenericErrorResponseDTO entryErrors(EntryTypeNotValidException e) {
+        return createGenericErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), Arrays.asList(e.getMessage()));
     }
 
     private GenericErrorResponseDTO createGenericErrorResponseDTO(Integer status, List<String> errors) {
