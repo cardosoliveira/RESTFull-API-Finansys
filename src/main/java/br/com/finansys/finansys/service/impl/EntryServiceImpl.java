@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,8 +26,8 @@ public class EntryServiceImpl implements EntryService {
                 .name(entryDTO.getName())
                 .description(entryDTO.getDescription())
                 .type(entryDTO.getType())
-                .amount(new BigDecimal(entryDTO.getAmount()))
-                .date(LocalDate.parse(entryDTO.getDate()))
+                .amount(new BigDecimal(entryDTO.getAmount().replace(",", ".")))
+                .date(LocalDate.parse(entryDTO.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .paid(entryDTO.getPaid())
                 .category(category)
                 .build());
@@ -54,8 +55,8 @@ public class EntryServiceImpl implements EntryService {
         entry.setName(entryDTO.getName());
         entry.setDescription(entryDTO.getDescription());
         entry.setType(entryDTO.getType());
-        entry.setAmount(new BigDecimal(entryDTO.getAmount()));
-        entry.setDate(LocalDate.parse(entryDTO.getDate()));
+        entry.setAmount(new BigDecimal(entryDTO.getAmount().replace(",", ".")));
+        entry.setDate(LocalDate.parse(entryDTO.getDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         entry.setPaid(entryDTO.getPaid());
         entry.setCategory(category);
         entryRepository.save(entry);

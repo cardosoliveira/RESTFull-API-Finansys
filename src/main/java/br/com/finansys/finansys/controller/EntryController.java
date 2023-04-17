@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class EntryController {
                 .name(entry.getName())
                 .description(entry.getDescription())
                 .type(entry.getType())
-                .amount(entry.getAmount().toString())
-                .date(entry.getDate().toString())
+                .amount(entry.getAmount().toString().replace(".", ","))
+                .date(entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .paid(entry.getPaid())
                 .categoryId(entry.getCategory().getId())
                 .category(CategoryDTO.builder()
@@ -66,15 +67,14 @@ public class EntryController {
     public List<EntryDTO> getAllEntries() {
         List<Entry> entryList = entryService.getAllEntries();
         List<EntryDTO> entryDTOList = new ArrayList<>();
-
         entryList.forEach(entry -> {
             EntryDTO entryDTO = EntryDTO.builder()
                     .id(entry.getId())
                     .name(entry.getName())
                     .description(entry.getDescription())
                     .type(entry.getType())
-                    .amount(entry.getAmount().toString())
-                    .date(entry.getDate().toString())
+                    .amount(entry.getAmount().toString().replace(".", ","))
+                    .date(entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                     .paid(entry.getPaid())
                     .categoryId(entry.getCategory().getId())
                     .category(CategoryDTO.builder()
