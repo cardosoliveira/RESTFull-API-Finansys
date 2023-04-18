@@ -1,9 +1,7 @@
 package br.com.finansys.finansys.controller;
 
 import br.com.finansys.finansys.dto.GenericErrorResponseDTO;
-import br.com.finansys.finansys.exception.CategoryNotFoundException;
-import br.com.finansys.finansys.exception.EntryNotFoundException;
-import br.com.finansys.finansys.exception.EntryTypeNotValidException;
+import br.com.finansys.finansys.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +24,6 @@ public class ControllerAdvice {
                 .stream()
                 .map(objectError -> objectError.getDefaultMessage())
                 .collect(Collectors.toList());
-
         return createGenericErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), errorList);
     }
 
@@ -34,7 +31,18 @@ public class ControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public GenericErrorResponseDTO categoryErrors(CategoryNotFoundException e) {
         return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
+    }
 
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public GenericErrorResponseDTO categoryErrors(CategoryAlreadyExistsException e) {
+        return createGenericErrorResponseDTO(HttpStatus.CONFLICT.value(), Arrays.asList(e.getMessage()));
+    }
+
+    @ExceptionHandler(CategoryInUseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public GenericErrorResponseDTO categoryErrors(CategoryInUseException e) {
+        return createGenericErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), Arrays.asList(e.getMessage()));
     }
 
     @ExceptionHandler(EntryNotFoundException.class)
