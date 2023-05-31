@@ -63,6 +63,12 @@ public class ControllerAdvice {
         return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public GenericErrorResponseDTO userError(UserAlreadyExistsException e) {
+        return createGenericErrorResponseDTO(HttpStatus.CONFLICT.value(), Arrays.asList(e.getMessage()));
+    }
+
     private GenericErrorResponseDTO createGenericErrorResponseDTO(Integer status, List<String> errors) {
         return GenericErrorResponseDTO.builder()
                 .timestamp(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")))

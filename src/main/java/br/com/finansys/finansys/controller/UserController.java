@@ -1,5 +1,6 @@
 package br.com.finansys.finansys.controller;
 
+import br.com.finansys.finansys.dto.LoginDTO;
 import br.com.finansys.finansys.dto.UserDTO;
 import br.com.finansys.finansys.model.User;
 import br.com.finansys.finansys.service.UserService;
@@ -35,6 +36,13 @@ public class UserController {
                 .fullName(user.getFullName())
                 .email(user.getEmail())
                 .build();
+    }
+
+    @PostMapping("login")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer performLogin(@RequestBody @Valid LoginDTO loginDTO) {
+        User user = userService.getUserByLogin(loginDTO);
+        return user.getId();
     }
 
     @PutMapping("{id}")
