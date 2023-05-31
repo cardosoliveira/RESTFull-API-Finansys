@@ -29,32 +29,38 @@ public class ControllerAdvice {
 
     @ExceptionHandler(CategoryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public GenericErrorResponseDTO categoryErrors(CategoryNotFoundException e) {
+    public GenericErrorResponseDTO categoryError(CategoryNotFoundException e) {
         return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
     }
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public GenericErrorResponseDTO categoryErrors(CategoryAlreadyExistsException e) {
+    public GenericErrorResponseDTO categoryError(CategoryAlreadyExistsException e) {
         return createGenericErrorResponseDTO(HttpStatus.CONFLICT.value(), Arrays.asList(e.getMessage()));
     }
 
     @ExceptionHandler(CategoryInUseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public GenericErrorResponseDTO categoryErrors(CategoryInUseException e) {
+    public GenericErrorResponseDTO categoryError(CategoryInUseException e) {
         return createGenericErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), Arrays.asList(e.getMessage()));
     }
 
     @ExceptionHandler(EntryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public GenericErrorResponseDTO entryErrors(EntryNotFoundException e) {
+    public GenericErrorResponseDTO entryError(EntryNotFoundException e) {
         return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
     }
 
     @ExceptionHandler(EntryTypeNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public GenericErrorResponseDTO entryErrors(EntryTypeNotValidException e) {
+    public GenericErrorResponseDTO entryError(EntryTypeNotValidException e) {
         return createGenericErrorResponseDTO(HttpStatus.BAD_REQUEST.value(), Arrays.asList(e.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public GenericErrorResponseDTO userError(UserNotFoundException e) {
+        return createGenericErrorResponseDTO(HttpStatus.NOT_FOUND.value(), Arrays.asList(e.getMessage()));
     }
 
     private GenericErrorResponseDTO createGenericErrorResponseDTO(Integer status, List<String> errors) {

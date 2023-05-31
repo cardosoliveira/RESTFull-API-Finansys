@@ -1,6 +1,5 @@
 package br.com.finansys.finansys.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,25 +13,27 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "user_info")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", unique = true)
-    private String name;
+    @Column(name = "user_name")
+    private String userName;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "password")
+    private String password;
 
-    @OneToMany(mappedBy = "category")
-    private List<Entry> entry;
+    @Column(name = "full_name")
+    private String fullName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "email")
+    private String email;
+
+    @OneToMany(mappedBy = "user")
+    private List<Category> category;
 
 }
