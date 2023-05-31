@@ -4,7 +4,7 @@ import br.com.finansys.finansys.dto.LoginDTO;
 import br.com.finansys.finansys.dto.UserDTO;
 import br.com.finansys.finansys.exception.UserAlreadyExistsException;
 import br.com.finansys.finansys.exception.UserNotFoundException;
-import br.com.finansys.finansys.model.User;
+import br.com.finansys.finansys.entity.User;
 import br.com.finansys.finansys.repository.UserRepository;
 import br.com.finansys.finansys.service.UserService;
 import lombok.RequiredArgsConstructor;

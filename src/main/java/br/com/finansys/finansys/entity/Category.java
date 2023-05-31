@@ -1,4 +1,4 @@
-package br.com.finansys.finansys.model;
+package br.com.finansys.finansys.entity;
 
 
 import lombok.AllArgsConstructor;

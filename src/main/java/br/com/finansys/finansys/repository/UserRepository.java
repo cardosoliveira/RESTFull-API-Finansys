@@ -1,6 +1,6 @@
 package br.com.finansys.finansys.repository;
 
-import br.com.finansys.finansys.model.User;
+import br.com.finansys.finansys.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

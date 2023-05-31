@@ -1,8 +1,8 @@
 package br.com.finansys.finansys.service;
 
 import br.com.finansys.finansys.dto.EntryDTO;
-import br.com.finansys.finansys.model.Category;
-import br.com.finansys.finansys.model.Entry;
+import br.com.finansys.finansys.entity.Category;
+import br.com.finansys.finansys.entity.Entry;
 
 import java.util.List;
 

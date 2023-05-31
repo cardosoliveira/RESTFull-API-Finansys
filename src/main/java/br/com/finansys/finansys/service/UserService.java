@@ -2,7 +2,7 @@ package br.com.finansys.finansys.service;
 
 import br.com.finansys.finansys.dto.LoginDTO;
 import br.com.finansys.finansys.dto.UserDTO;
-import br.com.finansys.finansys.model.User;
+import br.com.finansys.finansys.entity.User;
 
 public interface UserService {
 

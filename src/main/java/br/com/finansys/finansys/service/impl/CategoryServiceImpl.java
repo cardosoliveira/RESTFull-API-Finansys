@@ -4,7 +4,7 @@ import br.com.finansys.finansys.dto.CategoryDTO;
 import br.com.finansys.finansys.exception.CategoryAlreadyExistsException;
 import br.com.finansys.finansys.exception.CategoryInUseException;
 import br.com.finansys.finansys.exception.CategoryNotFoundException;
-import br.com.finansys.finansys.model.Category;
+import br.com.finansys.finansys.entity.Category;
 import br.com.finansys.finansys.repository.CategoryRepository;
 import br.com.finansys.finansys.service.CategoryService;
 import lombok.RequiredArgsConstructor;

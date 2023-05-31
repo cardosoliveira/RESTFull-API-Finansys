@@ -2,7 +2,7 @@ package br.com.finansys.finansys.controller;
 
 import br.com.finansys.finansys.dto.LoginDTO;
 import br.com.finansys.finansys.dto.UserDTO;
-import br.com.finansys.finansys.model.User;
+import br.com.finansys.finansys.entity.User;
 import br.com.finansys.finansys.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
