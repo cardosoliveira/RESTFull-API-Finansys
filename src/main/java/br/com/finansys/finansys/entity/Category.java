@@ -22,7 +22,10 @@ public class Category {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "userId", nullable = false)
+    private Integer userId;
+
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description")
@@ -30,9 +33,5 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Entry> entry;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
 
 }

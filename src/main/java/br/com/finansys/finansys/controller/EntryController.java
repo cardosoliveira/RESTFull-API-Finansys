@@ -29,12 +29,14 @@ public class EntryController {
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     public EntryDTO createEntry(@RequestBody @Valid EntryDTO entryDTO) {
-        Category category = categoryService.getCategory(entryDTO.getCategoryId());
+        Category category = categoryService.getCategory(entryDTO.getCategoryId(), entryDTO.getUserId());
         Entry entry = entryService.createEntry(entryDTO, category);
         entryDTO.setId(entry.getId());
+        entryDTO.setUserId(entry.getUserId());
         entryDTO.setDate(entry.getDate().toString());
         entryDTO.setCategory(CategoryDTO.builder()
                 .id(category.getId())
+                .userId(category.getUserId())
                 .name(category.getName())
                 .description(category.getDescription())
                 .build());
@@ -43,10 +45,11 @@ public class EntryController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EntryDTO getEntry(@PathVariable Integer id) {
-        Entry entry = entryService.getEntry(id);
+    public EntryDTO getEntry(@PathVariable Integer id, @RequestParam Integer userId) {
+        Entry entry = entryService.getEntry(id, userId);
         return EntryDTO.builder()
                 .id(entry.getId())
+                .userId(entry.getUserId())
                 .name(entry.getName())
                 .description(entry.getDescription())
                 .type(entry.getType())
@@ -56,6 +59,7 @@ public class EntryController {
                 .categoryId(entry.getCategory().getId())
                 .category(CategoryDTO.builder()
                         .id(entry.getCategory().getId())
+                        .userId(entry.getCategory().getUserId())
                         .name(entry.getCategory().getName())
                         .description(entry.getCategory().getDescription())
                         .build())
@@ -64,12 +68,13 @@ public class EntryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<EntryDTO> getAllEntries() {
-        List<Entry> entryList = entryService.getAllEntries();
+    public List<EntryDTO> getAllEntries(@RequestParam Integer userId) {
+        List<Entry> entryList = entryService.getAllEntries(userId);
         List<EntryDTO> entryDTOList = new ArrayList<>();
         entryList.forEach(entry -> {
             EntryDTO entryDTO = EntryDTO.builder()
                     .id(entry.getId())
+                    .userId(entry.getUserId())
                     .name(entry.getName())
                     .description(entry.getDescription())
                     .type(entry.getType())
@@ -79,6 +84,7 @@ public class EntryController {
                     .categoryId(entry.getCategory().getId())
                     .category(CategoryDTO.builder()
                             .id(entry.getCategory().getId())
+                            .userId(entry.getCategory().getUserId())
                             .name(entry.getCategory().getName())
                             .description(entry.getCategory().getDescription())
                             .build())
@@ -92,13 +98,14 @@ public class EntryController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateEntry(@PathVariable Integer id, @RequestBody @Valid EntryDTO entryDTO) {
-        Category category = categoryService.getCategory(entryDTO.getCategoryId());
-        entryService.updateEntry(id, entryDTO, category);
+        Integer userId = entryDTO.getUserId();
+        Category category = categoryService.getCategory(entryDTO.getCategoryId(), userId);
+        entryService.updateEntry(id, entryDTO, category, userId);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEntry(@PathVariable Integer id) {
-        entryService.deleteEntry(id);
+    public void deleteEntry(@PathVariable Integer id, @RequestParam Integer userId) {
+        entryService.deleteEntry(id, userId);
     }
 }

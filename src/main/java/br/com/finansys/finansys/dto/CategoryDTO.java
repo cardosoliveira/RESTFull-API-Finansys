@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -13,6 +14,9 @@ import javax.validation.constraints.NotBlank;
 public class CategoryDTO {
 
     private Integer id;
+
+    @NotNull(message = "the field [userId] is required")
+    private Integer userId;
 
     @NotBlank(message = "the field [name] is required")
     private String name;

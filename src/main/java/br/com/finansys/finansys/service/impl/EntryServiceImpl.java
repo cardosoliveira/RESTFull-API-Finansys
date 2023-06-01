@@ -1,10 +1,10 @@
 package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.EntryDTO;
-import br.com.finansys.finansys.exception.EntryNotFoundException;
-import br.com.finansys.finansys.exception.EntryTypeNotValidException;
 import br.com.finansys.finansys.entity.Category;
 import br.com.finansys.finansys.entity.Entry;
+import br.com.finansys.finansys.exception.EntryNotFoundException;
+import br.com.finansys.finansys.exception.EntryTypeNotValidException;
 import br.com.finansys.finansys.repository.EntryRepository;
 import br.com.finansys.finansys.service.EntryService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class EntryServiceImpl implements EntryService {
     @Override
     public Entry createEntry(EntryDTO entryDTO, Category category) {
         return entryRepository.save(Entry.builder()
+                .userId(entryDTO.getUserId())
                 .name(entryDTO.getName())
                 .description(entryDTO.getDescription())
                 .type(checkIfTypeEntryIsValid(entryDTO.getType()))
@@ -35,15 +36,14 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public Entry getEntry(Integer id) {
-        return entryRepository.findById(id)
-                .orElseThrow(() -> new EntryNotFoundException("No Entry with [id] = '" + id + "' was found"));
+    public Entry getEntry(Integer id, Integer userId) {
+        return entryRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new EntryNotFoundException("No Entry with [id] = " + id + " and [userId] = " + userId + " was found"));
     }
 
     @Override
-    public List<Entry> getAllEntries() {
-        List<Entry> entryList = entryRepository.findAll();
-
+    public List<Entry> getAllEntries(Integer userId) {
+        List<Entry> entryList = entryRepository.findAllByUserId(userId);
         if (entryList.isEmpty()) {
             throw new EntryNotFoundException("No Entry has been registered");
         }
@@ -51,8 +51,8 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public void updateEntry(Integer id, EntryDTO entryDTO, Category category) {
-        Entry entry = getEntry(id);
+    public void updateEntry(Integer id, EntryDTO entryDTO, Category category, Integer userId) {
+        Entry entry = getEntry(id, userId);
         entry.setName(entryDTO.getName());
         entry.setDescription(entryDTO.getDescription());
         entry.setType(checkIfTypeEntryIsValid(entryDTO.getType()));
@@ -64,8 +64,8 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public void deleteEntry(Integer id) {
-        entryRepository.delete(getEntry(id));
+    public void deleteEntry(Integer id, Integer userId) {
+        entryRepository.delete(getEntry(id, userId));
     }
 
     private String checkIfTypeEntryIsValid(String type) {

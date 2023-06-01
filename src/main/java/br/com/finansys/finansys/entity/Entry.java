@@ -22,6 +22,9 @@ public class Entry {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "userId", nullable = false)
+    private Integer userId;
+
     @Column(name = "name")
     private String name;
 

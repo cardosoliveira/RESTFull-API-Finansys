@@ -1,10 +1,10 @@
 package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.CategoryDTO;
+import br.com.finansys.finansys.entity.Category;
 import br.com.finansys.finansys.exception.CategoryAlreadyExistsException;
 import br.com.finansys.finansys.exception.CategoryInUseException;
 import br.com.finansys.finansys.exception.CategoryNotFoundException;
-import br.com.finansys.finansys.entity.Category;
 import br.com.finansys.finansys.repository.CategoryRepository;
 import br.com.finansys.finansys.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category createCategory(CategoryDTO categoryDTO) {
         try {
             return categoryRepository.save(Category.builder()
+                    .userId(categoryDTO.getUserId())
                     .name(categoryDTO.getName())
                     .description(categoryDTO.getDescription())
                     .build());
@@ -32,14 +33,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategory(Integer id) {
+    public Category getCategory(Integer id, Integer userId) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("No Category with [id] = '" + id + "' was found"));
+                .orElseThrow(() -> new CategoryNotFoundException("No Category with [id] = " + id + " and userId = [" + userId + "] was found"));
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        List<Category> categoryList = categoryRepository.findAll();
+    public List<Category> getAllCategories(Integer userId) {
+        List<Category> categoryList = categoryRepository.findAllByUserId(userId);
         if (categoryList.isEmpty()) {
             throw new CategoryNotFoundException("No Category has been registered");
         }
@@ -47,9 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void updateCategory(Integer id, CategoryDTO categoryDTO) {
+    public void updateCategory(Integer id, CategoryDTO categoryDTO, Integer userId) {
         try {
-            Category category = getCategory(id);
+            Category category = getCategory(id, userId);
             category.setName(categoryDTO.getName());
             category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
@@ -59,9 +60,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Integer id) {
+    public void deleteCategory(Integer id, Integer userId) {
         try {
-            categoryRepository.delete(getCategory(id));
+            categoryRepository.delete(getCategory(id, userId));
         } catch (DataIntegrityViolationException e) {
             throw new CategoryInUseException("Could not delete Category because it is associated with some Entry");
         }

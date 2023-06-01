@@ -2,9 +2,9 @@ package br.com.finansys.finansys.service.impl;
 
 import br.com.finansys.finansys.dto.LoginDTO;
 import br.com.finansys.finansys.dto.UserDTO;
+import br.com.finansys.finansys.entity.User;
 import br.com.finansys.finansys.exception.UserAlreadyExistsException;
 import br.com.finansys.finansys.exception.UserNotFoundException;
-import br.com.finansys.finansys.entity.User;
 import br.com.finansys.finansys.repository.UserRepository;
 import br.com.finansys.finansys.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public User getUser(Integer id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException("User with id = [" + id + "] not found");
         }
         return optionalUser.get();
     }

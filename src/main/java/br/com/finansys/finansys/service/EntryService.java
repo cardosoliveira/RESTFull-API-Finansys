@@ -10,12 +10,12 @@ public interface EntryService {
 
     Entry createEntry(EntryDTO entryDTO, Category category);
 
-    Entry getEntry(Integer id);
+    Entry getEntry(Integer id, Integer userId);
 
-    List<Entry> getAllEntries();
+    List<Entry> getAllEntries(Integer userId);
 
-    void updateEntry(Integer id, EntryDTO entryDTO, Category category);
+    void updateEntry(Integer id, EntryDTO entryDTO, Category category, Integer userId);
 
-    void deleteEntry(Integer id);
+    void deleteEntry(Integer id, Integer userId);
 
 }
