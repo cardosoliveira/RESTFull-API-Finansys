@@ -61,7 +61,7 @@ public class CategoryController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCategory(@PathVariable Integer id, @Valid @RequestBody CategoryDTO categoryDTO) {
-        categoryService.updateCategory(id, categoryDTO, categoryDTO.getUserId());
+        categoryService.updateCategory(id, categoryDTO);
     }
 
     @DeleteMapping("{id}")

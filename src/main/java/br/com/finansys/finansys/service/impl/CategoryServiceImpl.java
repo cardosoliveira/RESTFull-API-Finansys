@@ -48,9 +48,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void updateCategory(Integer id, CategoryDTO categoryDTO, Integer userId) {
+    public void updateCategory(Integer id, CategoryDTO categoryDTO) {
         try {
-            Category category = getCategory(id, userId);
+            Category category = getCategory(id, categoryDTO.getUserId());
             category.setName(categoryDTO.getName());
             category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
@@ -67,5 +67,4 @@ public class CategoryServiceImpl implements CategoryService {
             throw new CategoryInUseException("Could not delete Category because it is associated with some Entry");
         }
     }
-
 }
